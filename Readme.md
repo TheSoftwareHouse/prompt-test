@@ -1,4 +1,10 @@
 
+## Usage
+
+```
+npx @tshio/prompt-test <command>
+```
+
 ## Available commands:
 ### Create
 Command:  create <filename>  

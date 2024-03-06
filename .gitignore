@@ -3,3 +3,5 @@ config.js
 dist
 lib
 bin
+
+.npmrc
