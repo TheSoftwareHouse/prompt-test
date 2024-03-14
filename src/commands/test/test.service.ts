@@ -22,17 +22,24 @@ export class TestService {
 
   private test(config: Config, model: Model) {
     config.testGroups.forEach((group) => {
-      describe(group.name, async () => {
+      describe(group.name, { skip: group.skip }, async () => {
         group.testCases.forEach((testCase) => {
-          it(`Test: ${testCase.input}`, { concurrency: true }, async () => {
-            const prepredPrompt = config.preparePrompt(
-              config.prompt,
-              testCase.input,
-            );
-            const result = await model.call(prepredPrompt);
-            const parsedResult = config.parseResult(result);
-            assert.strictEqual(parsedResult, testCase.result);
-          });
+          it(
+            `Test: ${testCase.input}`,
+            {
+              concurrency: true,
+              skip: testCase.skip,
+            },
+            async () => {
+              const preparedPrompt = config.preparePrompt(
+                config.prompt,
+                testCase.input,
+              );
+              const result = await model.call(preparedPrompt);
+              const parsedResult = config.parseResult(result);
+              assert.strictEqual(parsedResult, testCase.result);
+            },
+          );
         });
       });
     });
